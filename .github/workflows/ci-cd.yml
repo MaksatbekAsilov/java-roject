@@ -1,16 +1,28 @@
-name: My First Workflow   # Название Workflow (для понимания в интерфейсе GitHub)
+name: CI/CD Pipeline
 
 on:
-  push:                   # Событие, при котором запускается Workflow
+  push:
     branches:
-      - main              # Указывает, что реагировать на пуши в ветку main
+      - master  # Запускать на коммитах в ветку master
 
 jobs:
-  say-hello:              # Название Job
-    runs-on: ubuntu-latest # Операционная система для выполнения задач
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4 # Загружаем код из репозитория
+  build:
+    runs-on: ubuntu-latest  # Используемая среда
 
-      - name: Print Hello World
-        run: echo "Hello, World!"  # Команда, которая выполняется в терминале
+    steps:
+      - name: Checkout репозиторий
+        uses: actions/checkout@v3
+
+      - name: Установить JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Сборка проекта
+        run: |
+          javac WeatherApp.java
+          jar cfe weather-app.jar WeatherApp WeatherApp.class
+
+      - name: Проверка результата
+        run: ls -l
