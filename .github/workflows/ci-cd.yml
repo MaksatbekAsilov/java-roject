@@ -1,0 +1,16 @@
+name: My First Workflow   # Название Workflow (для понимания в интерфейсе GitHub)
+
+on:
+  push:                   # Событие, при котором запускается Workflow
+    branches:
+      - main              # Указывает, что реагировать на пуши в ветку main
+
+jobs:
+  say-hello:              # Название Job
+    runs-on: ubuntu-latest # Операционная система для выполнения задач
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Загружаем код из репозитория
+
+      - name: Print Hello World
+        run: echo "Hello, World!"  # Команда, которая выполняется в терминале
